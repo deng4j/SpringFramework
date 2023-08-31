@@ -30,6 +30,8 @@ Spring Framework是Spring生态圈中最基础的项目，是其他项目的根�
 
 ![f56dc077b07941bbab9c44fda56d7d9c](assist/f56dc077b07941bbab9c44fda56d7d9c.png)
 
+![v2-55c5b61912d232437d49139c8b381b7a_720w](assist\v2-55c5b61912d232437d49139c8b381b7a_720w.png)
+
 **spring拓展接口**：
 
 ![47a98f3c2c7f47e998383b92212b5102](assist/47a98f3c2c7f47e998383b92212b5102.png)
@@ -111,3 +113,35 @@ Spring事务角色：
 6. TransactionDefinition.PROPAGATION_MANDATORY：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。
 
 7. TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于第1条。
+
+# 三.**常用注释**
+
+**类型类注释：**
+
+- @Component注解在类上使用表明这个类是个组件类，需要Spring为这个类创建bean。
+- @Bean注解使用在方法上，告诉Spring这个方法将会返回一个Bean对象，需要把返回的对象注册到Spring的应用上下文中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
