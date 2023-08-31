@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置一个bean，将指定类配置给spring，让spring创建对象的实例 setter依赖注入-->
+
+    <!--setter依赖注入和构造方法注入，bean中name取别名,多个别名(,)(:)( )分隔-->
+    <!--scope控制单例和非单例,默认是单例，pojo模板不适合单例,lazy-init延迟加载-->
+
+    <!--1构造方法创建对象-->
+    <bean id="book" name="book2 book3" class="com.dengzhihomng.pojo.Book" scope="prototype" lazy-init="true">
+        <property name="name" value="《射雕英雄传》"></property>
+        <!--name注入-->
+        <constructor-arg name="name" value="《神雕侠侣》"></constructor-arg>
+        <constructor-arg name="auther" value="金庸"></constructor-arg>
+        <constructor-arg name="age" value="18"></constructor-arg>
+
+        <!--type注入-->
+        <!--<constructor-arg type="java.lang.String" value="《神雕侠侣》"></constructor-arg>-->
+        <!--<constructor-arg type="java.lang.String" value="金庸"></constructor-arg>-->
+        <!--<constructor-arg type="int" value="18"></constructor-arg>-->
+
+        <!--index注入-->
+        <!--<constructor-arg index="0" value="《神雕侠侣》"></constructor-arg>-->
+        <!--<constructor-arg index="1" value="金庸"></constructor-arg>-->
+        <!--<constructor-arg index="2" value="18"></constructor-arg>-->
+    </bean>
+
+    <!--2静态工厂创建Book对象-->
+    <bean id="bookFactory" class="com.dengzhihomng.factory.BookFactory" factory-method="getBookFactory"></bean>
+
+    <!--3实例工厂创建Book对象-->
+    <bean id="bookInstanceFactory" class="com.dengzhihomng.factory.BookInstanceFactory"/>
+    <bean id="bookIF" factory-method="getBookFactory" factory-bean="bookInstanceFactory"/>
+
+    <!--3.1动态实例工厂bookDao创建对象-->
+<!--    <bean id="bookDaoFactory" class="com.dengzhihomng.factory.FactoryBeans"/>-->
+
+    <!--p命名空间注入法-->
+    <!--<bean id="book2" class="com.dengzhihomng.pojo.Book" p:name="《天龙八部》"/>-->
+
+
+
+
+    <bean id="bookDao" class="com.dengzhihomng.dao.BookDaoImpl.BookDaoImpl" init-method="init" destroy-method="destroy"></bean>
+
+    <bean id="bookService" class="com.dengzhihomng.service.impl.BookServiceImpl">
+        <!--引用了bookDaoImp对象，（依赖注入）。使用ioc容器控制创建对象（控制反转）-->
+        <property name="bookDao" ref="bookDao"></property>
+    </bean>
+
+    <!--自动装配(不适用简单类型，优先级低于setter和constructor注入)-->
+    <!--按类型装配，必须保证装配的bean唯一-->
+    <bean id="autoBookServiceByType" class="com.dengzhihomng.service.impl.BookServiceImpl" autowire="byType"/>
+
+    <!--按名称装配，就是按照setter的参数名装配-->
+    <bean id="autoBookServiceByName" class="com.dengzhihomng.service.impl.BookServiceImpl" autowire="byName"/>
+
+
+    <!--集合注入-->
+    <bean id="liber" class="com.dengzhihomng.pojo.Liberal">
+        <property name="arr">
+            <list>
+                <value>员工一号</value>
+                <value>120123</value>
+            </list>
+        </property>
+        <property name="bookList">
+            <list>
+                <ref bean="book"></ref>
+                <ref bean="book"></ref>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>张三</value>
+                <value>李四</value>
+            </set>
+        </property>
+        <property name="bookMap">
+            <map>
+                <entry key="23164" value-ref="book"></entry>
+            </map>
+        </property>
+        <property name="prop">
+            <props>
+                <prop key="1">hello</prop>
+                <prop key="2">world</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
