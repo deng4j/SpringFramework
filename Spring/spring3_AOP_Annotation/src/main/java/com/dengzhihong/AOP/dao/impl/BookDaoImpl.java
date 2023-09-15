@@ -8,13 +8,11 @@ import org.springframework.stereotype.Repository;
 public class BookDaoImpl implements BookDao {
 
     @Override
-    @Log(title ="查询")
+    @Log(title ="log-查询")
     public int select(int id) { System.out.println("select"); return id; }
 
     @Override
     public void delete(String id) {
         System.out.println("delete");
     }
-
-    public void show(){ System.out.println("show"); }
 }
