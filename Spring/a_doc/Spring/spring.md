@@ -114,16 +114,25 @@ Spring事务角色：
 
 7. TransactionDefinition.PROPAGATION_NESTED：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于第1条。
 
-# 三.**常用注释**
+# 三.循环依赖解决
 
-**类型类注释：**
+singleton单例对象初始化三部：
 
-- @Component注解在类上使用表明这个类是个组件类，需要Spring为这个类创建bean。
-- @Bean注解使用在方法上，告诉Spring这个方法将会返回一个Bean对象，需要把返回的对象注册到Spring的应用上下文中。
+1. createBeanInstance：实例化，调用对象的构造方法实例化
+2. populateBean：填充属性，对bean属性进行填充
+3. InitializeBean：初始化，调用bean的init方法
 
+循环依赖主要发生在1、2步。
 
+三级缓存：
 
+- singletonObjects：存放完全初始化好的bean
+- earlySingletonObjects ：没有经过属性填充的bean
+- singletonFactories：存放bean工厂，创建新的bean
 
+流程：先去singletonObjects拿；拿不到去earlySingletonObjects 拿；还是拿不到去singletonFactories拿到 该bean工厂 getObject()获取（getObject()获取到后，要从singletonFactories移除，并放入earlySingletonObjects）
+
+bean的AOP是在初始化之后，如果循环依赖的bean使用了AOP，就无法等到解决完循环依赖后再创建代理对象，因为这时候已经需要注入属性，所以要提前创建代理对象放入earlySingletonObjects 。
 
 
 
